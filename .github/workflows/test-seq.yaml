@@ -22,7 +22,7 @@ jobs:
         run: echo job2
   job3:
     runs-on: ubuntu-latest
-    if: ${{ always() && needs.job1.outputs.test }}
+    if: ${{ needs.job1.outputs.test && always() }}
     needs:
       - job1
       - job2
