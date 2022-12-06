@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Test
         run: echo job1
+    outputs:
+      test: false
   job2:
     if: ${{ false }}
     runs-on: ubuntu-latest
@@ -20,7 +22,7 @@ jobs:
         run: echo job2
   job3:
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: ${{ always() && needs.job1.outputs.test }}
     needs:
       - job1
       - job2
