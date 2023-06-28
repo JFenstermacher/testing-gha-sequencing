@@ -30,7 +30,7 @@ jobs:
 
     outputs:
       deployment-state: ${{ steps.ecs-deploy.outputs.deploymentState || steps.db-migration.outputs.migrationState }}
-      failure-message: ${{ steps.db-migration.outputs.failureMesasge }}
+      failure-message: ${{ steps.db-migration.outputs.failureMessage || steps.db-migration.outputs.failureMessage }}
 
   output-test:
     if: always()
