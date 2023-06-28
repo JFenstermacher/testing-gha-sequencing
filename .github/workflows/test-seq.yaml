@@ -10,13 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Database Migration
+        if: ${{ '1' == '2' }}
         id: db-migration
         run: |
-          echo "migrationState=Success" >> $GITHUB_OUTPUT
+          echo "migrationState=Deployed" >> $GITHUB_OUTPUT
           echo "failureMessage='Migration failed'" >> $GITHUB_OUTPUT
 
       - name: ECS deploy
-        if: steps.db-migration.outputs.migrationState != 'Failure'
+        if: steps.db-migration.outputs.migrationState == 'Deployed'
         id: ecs-deploy
         run: |
           echo "deploymentState=Failure" >> $GITHUB_OUTPUT
