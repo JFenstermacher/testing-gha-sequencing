@@ -40,5 +40,5 @@ jobs:
     steps:
       - name: echo
         run: |
-          echo "{{ needs.deploy-test.outputs.deployment-state }}"
-          echo "{{ needs.deploy-test.outputs.failure-message }}"
+          echo "${{ needs.deploy-test.outputs.deployment-state }}"
+          echo "${{ needs.deploy-test.outputs.failure-message }}"
