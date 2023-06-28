@@ -12,16 +12,33 @@ jobs:
       - name: Run Database Migration
         id: db-migration
         run: |
-          echo "migrationState=Migrated" >> $GITHUB_OUTPUT
+          echo "migrationState=Failure" >> $GITHUB_OUTPUT
+          echo "failureMessage='Migration failed'" >> $GITHUB_OUTPUT
 
       - name: ECS deploy
         if: steps.db-migration.outputs.migrationState != 'Failure'
         id: ecs-deploy
         run: |
           echo "deploymentState=Failure" >> $GITHUB_OUTPUT
+          echo "failureMessage='Deplyoment failed'" >> $GITHUB_OUTPUT
 
       - name: Detecting failure
         if: steps.ecs-deploy.outputs.deploymentState == 'Failure' || steps.db-migration.outputs.migrationState == 'Failure'
         run: |
           echo "Failures while updating services"
           exit 1
+
+    outputs:
+      deployment-state: ${{ steps.ecs-deploy.outputs.deploymentState || steps.db-migration.outputs.migrationState }}
+      failure-message: ${{ steps.ecs-deploy.outputs.failureMessage || steps.db-migration.outputs.failureMesasge }}
+
+  output-test:
+    if: always()
+    runs-on: ubuntu-latest
+    needs:
+      - deploy-test
+    steps:
+      - name: echo
+        run: |
+          echo "{{ needs.deploy-test.outputs.deployment-state }}"
+          echo "{{ needs.deploy-test.outputs.failure-message }}"
