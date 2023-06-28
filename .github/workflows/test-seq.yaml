@@ -17,7 +17,7 @@ jobs:
           echo "failureMessage='Migration failed'" >> $GITHUB_OUTPUT
 
       - name: ECS deploy
-        if: steps.db-migration.outputs.migrationState == 'Deployed'
+        if: steps.db-migration.result == 'skipped' || steps.db-migration.outputs.migrationState == 'Deployed'
         id: ecs-deploy
         run: |
           echo "deploymentState=Failure" >> $GITHUB_OUTPUT
