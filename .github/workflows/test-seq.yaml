@@ -5,27 +5,22 @@ on:
       - main
 
 jobs:
-  job1:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Test
-        run: echo job1
-    outputs:
-      test: false
-  job2:
-    if: ${{ false }}
+  deploy-test:
     runs-on: ubuntu-latest
     needs:
-      - job1
-    steps:
-      - name: Testing again
-        run: echo job2
-  job3:
-    runs-on: ubuntu-latest
-    if: ${{ needs.job1.outputs.test && always() }}
-    needs:
-      - job1
-      - job2
-    steps:
-      - name: Testing again
-        run: echo job3
+      - name: Run Database Migration
+        id: db-migration
+        run: |
+          echo "migrationState=Failure" >> $GITHUB_OUTPUT
+
+      - name: ECS deploy
+        if: steps.db-migration.outputs.migrationState != 'Failure'
+        id: ecs-deploy
+        run: |
+          echo "deploymentState=Failure" >> $GITHUB_OUTPUT
+
+      - name: Detecting failure
+        if: steps.ecs-deploy.outputs.deploymentState == 'Failure' || steps.db-migration.outputs.migrationState == 'Failure'
+        run: |
+          echo "Failures while updating services"
+          exit 1
