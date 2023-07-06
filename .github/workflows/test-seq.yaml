@@ -6,6 +6,21 @@ on:
       - main
 
 jobs:
+  release-please:
+    name: Release Please
+    runs-on:
+      - self-hosted
+      - general
+    steps:
+      - name: Release Please
+        uses: google-github-actions/release-please-action@v3
+        id: release-please
+        with:
+          release-type: simple
+    outputs:
+      release-created: ${{ steps.release-please.outputs.release_created }}
+      tag-name: ${{ steps.release-please.outputs.tag_name || 'master' }}
+
   deploy-test:
     runs-on: ubuntu-latest
     steps:
