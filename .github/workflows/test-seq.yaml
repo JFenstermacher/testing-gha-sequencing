@@ -10,10 +10,6 @@ permissions:
   contents: write
   pull-requests: write
 
-concurrency:
-  group: on-main-merge
-  cancel-in-progress: true
-
 jobs:
   release-please:
     name: Release Please
