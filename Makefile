@@ -4,5 +4,8 @@ test:
 another-test:
 	@echo another-test
 
-ihatemylife:
-	@echo I hate my life
+endless:
+	@echo endless
+
+suffering:
+	@echo suffering
