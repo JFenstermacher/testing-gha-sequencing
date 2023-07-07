@@ -24,28 +24,29 @@ jobs:
     outputs:
       release-created: ${{ steps.release-please.outputs.release_created }}
       tag-name: ${{ steps.release-please.outputs.tag_name || 'main' }}
-  # deploy-test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Run Database Migration
-  #       if: ${{ '1' == '2' }}
-  #       id: db-migration
-  #       run: |
-  #         echo "migrationState=Deployed" >> $GITHUB_OUTPUT
-  #         echo "failureMessage='Migration failed'" >> $GITHUB_OUTPUT
-  #
-  #     - name: ECS deploy
-  #       if: steps.db-migration.outcome == 'skipped' || steps.db-migration.outputs.migrationState == 'Deployed'
-  #       id: ecs-deploy
-  #       run: |
-  #         echo "deploymentState=Failure" >> $GITHUB_OUTPUT
-  #         echo "failureMessage='Deployment failed'" >> $GITHUB_OUTPUT
-  #
-  #     - name: Detecting failure
-  #       if: steps.ecs-deploy.outputs.deploymentState == 'Failure' || steps.db-migration.outputs.migrationState == 'Failure'
-  #       run: |
-  #         echo "Failures while updating services"
-  #         exit 1
+
+  deploy-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Database Migration
+        if: ${{ '1' == '2' }}
+        id: db-migration
+        run: |
+          echo "migrationState=Deployed" >> $GITHUB_OUTPUT
+          echo "failureMessage='Migration failed'" >> $GITHUB_OUTPUT
+
+      - name: ECS deploy
+        if: steps.db-migration.outcome == 'skipped' || steps.db-migration.outputs.migrationState == 'Deployed'
+        id: ecs-deploy
+        run: |
+          echo "deploymentState=Failure" >> $GITHUB_OUTPUT
+          echo "failureMessage='Deployment failed'" >> $GITHUB_OUTPUT
+
+      - name: Detecting failure
+        if: steps.ecs-deploy.outputs.deploymentState == 'Failure' || steps.db-migration.outputs.migrationState == 'Failure'
+        run: |
+          echo "Failures while updating services"
+          exit 1
   #
   #   outputs:
   #     deployment-state: ${{ steps.ecs-deploy.outputs.deploymentState || steps.db-migration.outputs.migrationState }}
