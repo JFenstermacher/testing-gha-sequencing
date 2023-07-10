@@ -23,7 +23,7 @@ jobs:
         uses: google-github-actions/release-please-action@v3
         id: release-please
         with:
-          release-type: simple
+          config-file: "release-please-config.json"
     outputs:
       release-created: ${{ steps.release-please.outputs.release_created }}
       tag-name: ${{ steps.release-please.outputs.tag_name }}
