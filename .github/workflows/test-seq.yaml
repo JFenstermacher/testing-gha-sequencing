@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: on-master-merge
+  cancel-in-progress: true
+
 permissions:
   id-token: write
   contents: write
