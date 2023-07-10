@@ -9,3 +9,6 @@ endless:
 
 suffering:
 	@echo suffering
+
+feat1:
+	@echo feat1
