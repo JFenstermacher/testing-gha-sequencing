@@ -25,6 +25,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: simple
+          bootstrap-sha: ace310d6058c6350673709447f26e1366bc5c1e6
+          release-as: "7.0.0"
     outputs:
       release-created: ${{ steps.release-please.outputs.release_created }}
       tag-name: ${{ steps.release-please.outputs.tag_name || 'main' }}
