@@ -15,3 +15,6 @@ feat1:
 
 feat2:
 	@echo feat2 test
+
+feat3:
+	@echo what
