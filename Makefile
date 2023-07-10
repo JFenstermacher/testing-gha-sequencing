@@ -9,3 +9,6 @@ endless:
 
 suffering:
 	@echo suffering
+
+feat2:
+	@echo feat2 test
