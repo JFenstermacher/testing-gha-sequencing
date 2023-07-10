@@ -28,7 +28,7 @@ jobs:
         run: echo 2
 
   job3:
-    if: needs.job1.job == 'success' && (needs.job2.result == 'success' || needs.job2.result == 'skipped')
+    if: needs.job1.result == 'success' && (needs.job2.result == 'success' || needs.job2.result == 'skipped')
     runs-on: ubuntu-latest
     needs:
       - job1
