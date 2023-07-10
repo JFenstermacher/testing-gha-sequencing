@@ -17,10 +17,7 @@ permissions:
 jobs:
   release-please:
     name: Release Please
-    runs-on:
-      group: dailypay
-      labels:
-        - default
+    runs-on: ubuntu-latest
     steps:
       - name: Release Please
         uses: google-github-actions/release-please-action@v3
