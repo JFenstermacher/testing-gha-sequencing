@@ -15,24 +15,18 @@ permissions:
   pull-requests: write
 
 jobs:
-  job1:
-    runs-on: ubuntu-latest
+  release-please:
+    name: Release Please
+    runs-on:
+      group: dailypay
+      labels:
+        - default
     steps:
-      - name: test
-        run: exit 1
-  job2:
-    if: ${{ 'test' == 'abc' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: test
-        run: echo 2
-
-  job3:
-    if: always() && needs.job1.result == 'success' && (needs.job2.result == 'success' || needs.job2.result == 'skipped')
-    runs-on: ubuntu-latest
-    needs:
-      - job1
-      - job2
-    steps:
-      - name: test
-        run: echo 3
+      - name: Release Please
+        uses: google-github-actions/release-please-action@v3
+        id: release-please
+        with:
+          release-type: simple
+    outputs:
+      release-created: ${{ steps.release-please.outputs.release_created }}
+      tag-name: ${{ steps.release-please.outputs.tag_name }}
