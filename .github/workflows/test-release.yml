@@ -1,0 +1,14 @@
+name: Test
+
+on:
+  release:
+    types: ["published"]
+
+jobs:
+  test:
+    runs-on:
+      - general
+      - default
+    steps:
+      - name: echo
+        run: echo ${{ github.ref_type }}
