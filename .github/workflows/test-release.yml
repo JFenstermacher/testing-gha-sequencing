@@ -10,4 +10,4 @@ jobs:
     steps:
       - name: echo
         run: |
-          node -e 'JSON.stringify(${{ github }})'
+          echo '${{ toJSON(github) }}'
