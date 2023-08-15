@@ -6,9 +6,7 @@ on:
 
 jobs:
   test:
-    runs-on:
-      - general
-      - default
+    runs-on: ubuntu-latest
     steps:
       - name: echo
         run: echo ${{ github.ref_type }}
