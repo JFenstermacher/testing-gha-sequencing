@@ -30,7 +30,7 @@ jobs:
   #     tag-name: ${{ steps.release-please.outputs.tag_name }}
   test:
     name: testing skipping
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
       - name: skip me
         if: ${{ false }}
